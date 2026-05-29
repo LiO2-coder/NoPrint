@@ -24,7 +24,7 @@ From this repository root, import the package directly:
 from noprint import create_logger
 
 log = create_logger(
-    "/home/robot/Keep_Learning/logs",
+    "/home/robot/logs",
     formats=("log", "jsonl", "markdown"),
     capture_exceptions=True,
 )
