@@ -1,20 +1,28 @@
 # NoPrint
 
-NoPrint is a small Python logging helper for scripts that start with `print()` and later need clean log files. It writes human-readable logs and structured events at the same time, with optional automatic capture of uncaught Python exceptions.
+[English Version](README.md)
 
-## Features
+NoPrint 是一个轻量级 Python 日志管理包，用来替代调试阶段到处散落的 `print()`。它可以同时写入人工易读的日志和结构化事件，并支持自动接入 Python 未捕获异常，方便调试、复盘，也方便把日志交给 AI 分析。
 
-- Standard-library only.
-- Python 3.8 compatible.
-- Class-based logger management.
-- User-selected output directory.
-- Multiple output formats: `log`, `jsonl`, `txt`, `markdown`.
-- Levels such as `debug`, `info`, `warn`, `error`, and `critical`.
-- Optional `sys.excepthook` and `threading.excepthook` integration.
+## 项目缘起
 
-## Local Use
+以前调试总是用 `print()`，一开始确实方便，但项目稍微复杂一点就会变得效率低、不好搜索、不好管理，也不方便把关键上下文整理给 AI。偶尔会用一下 `rospy.log`，但并不是所有项目都在 ROS 里。
 
-From this repository root, import the package directly:
+在做 MuJoCo 项目的时候，Codex 给了我一些灵感，于是做了这个轻松使用的 logger 日志管理包。目标很简单：少写样板代码，快速接入 Python 脚本，让调试记录更清楚，也让人与 AI 协作时有更完整的上下文。
+
+## 特性
+
+- 只使用 Python 标准库。
+- 兼容 Python 3.8+。
+- 类管理形式，创建和关闭都很简单。
+- 用户可设置日志保存地址。
+- 支持多种保存格式：`log`、`jsonl`、`txt`、`markdown`。
+- 支持多个日志等级：`debug`、`info`、`warn`、`error`、`critical`。
+- 可自动接入 `sys.excepthook` 和 `threading.excepthook`，记录主线程和子线程未捕获异常。
+
+## 快速使用
+
+在项目根目录下直接导入：
 
 ```python
 from noprint import create_logger
@@ -37,7 +45,7 @@ log.close()
 from noprint import NoPrint, NoPrintConfig, create_logger
 ```
 
-`create_logger(...)` is the simplest entrypoint:
+最简单的入口是 `create_logger(...)`：
 
 ```python
 log = create_logger(
@@ -50,11 +58,11 @@ log = create_logger(
 )
 ```
 
-`NoPrintConfig` exposes the same options when you want to construct the class directly.
+如果你想显式管理配置，也可以直接使用 `NoPrintConfig` 和 `NoPrint`。
 
-## Output Files
+## 输出文件
 
-File names use the current run time and the running script name:
+日志文件名会使用当前运行时间和运行脚本名：
 
 ```text
 YYYYMMDD_HHMMSS_main.log
@@ -63,31 +71,64 @@ YYYYMMDD_HHMMSS_main.txt
 YYYYMMDD_HHMMSS_main.md
 ```
 
-Format behavior:
+格式说明：
 
-- `log`: standard logging output for terminal-style reading and `tail`.
-- `jsonl`: one JSON event per line with time, level, event, message, fields, and exception.
-- `txt`: compact text output.
-- `markdown`: readable Markdown sections for notes and reports.
+- `log`：标准日志行，适合终端查看和 `tail`。
+- `jsonl`：每行一个 JSON 事件，包含时间、等级、事件名、消息、字段和异常信息。
+- `txt`：简洁文本日志。
+- `markdown`：Markdown 小节格式，适合直接阅读和归档。
 
-## Exceptions
+## 异常捕获
 
-Enable automatic uncaught exception logging:
+创建 logger 时开启：
 
 ```python
 log = create_logger("logs", capture_exceptions=True)
 ```
 
-Or install hooks later:
+或者稍后手动安装：
 
 ```python
 log.install_exception_hooks()
 ```
 
-NoPrint records the exception and then lets Python keep printing the original traceback.
+NoPrint 会先记录异常，然后保留 Python 原始 traceback 输出，不吞掉系统报错。
 
-## Tests
+## TODO: 开发计划（作者给自己画饼）
+
+- 支持按日期或文件大小自动切分日志。
+- 支持控制台彩色输出。
+- 增加命令行工具，快速查看最近日志。
+- 增加更多机器人、AI 协作调试示例。
+- 增加更多文档和实际项目接入样例。
+
+## 测试
 
 ```bash
 python3 -m unittest tests.test_noprint
 ```
+
+## 许可证
+
+本项目采用 MIT 许可证 - 查看 `LICENSE` 文件了解详情。
+
+## 作者
+
+GitHub: [https://github.com/LiO2-coder](https://github.com/LiO2-coder)
+
+## 版本历史
+
+- v1.0 - 初始版本发布
+  - 实现多格式日志输出：`log`、`jsonl`、`txt`、`markdown`
+  - 提供简单的类管理 API、说明文档和示例
+  - 支持 Python 未捕获异常记录，方便调试和 AI 交互
+
+## 支持
+
+如果您在使用过程中遇到任何问题，可以通过以下方式联系：
+
+- GitHub Issues: [项目 Issues 页面](https://github.com/LiO2-coder/NoPrint/issues)
+
+---
+
+⭐ 如果这个项目对您有帮助，请给个Star！
