@@ -8,7 +8,7 @@ import threading
 import unittest
 from pathlib import Path
 
-from NoPrint.noprint import NoPrintConfig, create_logger
+from noprint import NoPrintConfig, create_logger
 
 
 class NoPrintTests(unittest.TestCase):

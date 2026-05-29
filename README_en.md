@@ -1,6 +1,6 @@
 # NoPrint
 
-[中文文档](README_en.md)
+[中文文档](README.md)
 
 NoPrint is a small Python logging helper for scripts that start with `print()` and later need clean log files. It writes human-readable logs and structured events at the same time, with optional automatic capture of uncaught Python exceptions.
 
@@ -101,13 +101,15 @@ TODO: development plans, also known as promises the author is making to their fu
 
 ## Tests
 
+Run this command from the project root directory, `NoPrint/`:
+
 ```bash
 python3 -m unittest tests.test_noprint
 ```
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the[LICENSE](LICENSE)file for details.
 
 ## Author
 
@@ -123,7 +125,7 @@ GitHub: [https://github.com/LiO2-coder](https://github.com/LiO2-coder)
 ## Support
 
 If you encounter any issue, contact via:
+
 - GitHub Issues: [https://github.com/LiO2-coder/NoPrint/issues](https://github.com/LiO2-coder/NoPrint/issues)
 
 ---
-
